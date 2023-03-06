@@ -1,13 +1,14 @@
 <html>
 
 <head>
-    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"
+        integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
     <script type="text/javascript">
         const TOTAL_SENTENCE = 6236;
         const QURAN_ENDPOINT = "https://api.alquran.cloud/v1/ayah"
 
-        var words = [];
-        var prevWords = [];
+        const words = [];
+        const prevWords = [];
         var currentWord = "";
 
         function setWord() {
@@ -31,7 +32,8 @@
             currentWord = word;
             prevWords.push(word);
             $("#word").html(word);
-            $("#body").css("font-size", window.innerHeight / 3);
+
+            setSize();
         }
 
         function prevWord() {
@@ -52,7 +54,17 @@
                 currentWord = word;
                 words.push(word);
                 $("#word").html(word);
-                $("#body").css("font-size", window.innerHeight / 3);
+
+                setSize();
+            }
+        }
+
+        function setSize() {
+            var dominator = 2;
+            $("#word").css("font-size", window.innerHeight / dominator);
+            while ($("#word")[0].scrollWidth > $("#word").width()) {
+                dominator++;
+                $("#word").css("font-size", window.innerHeight / dominator);
             }
         }
 
@@ -70,6 +82,7 @@
                     word = word.replace(" ۖ", "");
                     word = word.replace(" ۚ", "");
                     word = word.replace(" ۗ", "");
+                    word = word.replace(" ۚ", "");
                     word = word.replace("۞", "");
                     word = word.replace("۞", "");
                     word = word.replace("", "");
@@ -77,6 +90,7 @@
                     if (word === "ٱللَّهَ") word = "";
                     if (word === "ٱللَّهِ") word = "";
 
+                    if (word.length === 1) word = "";
                     words.push(word);
                 })
                 shuffleArray(words);
@@ -114,7 +128,8 @@
         #word {
             width: 100%;
             position: fixed;
-            top: 10%;
+            padding: 10% 0%;
+            overflow: scroll;
         }
 
         #buttons {
@@ -125,23 +140,23 @@
 
         button {
             width: 40%;
-            height: 10%;
             border: none;
             color: white;
-            padding: 1%;
+            padding: 1% 1%;
             border-radius: 20px;
             text-align: center;
-            display: inline-block;
-            cursor:pointer;
-            font-size: 10%;
+            cursor: pointer;
+            font-size: 100%;
         }
 
         #next {
-            background-color: #4CAF50; /* Green */
+            background-color: #4CAF50;
+            /* Green */
         }
 
         #prev {
-            background-color: #008CBA; /* Blue */
+            background-color: #008CBA;
+            /* Blue */
         }
 
         #border {
