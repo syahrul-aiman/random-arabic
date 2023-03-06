@@ -1,48 +1,107 @@
 <html>
 
 <head>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
     <script type="text/javascript">
-        const sentences = [
-            "بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ ١ ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَـٰلَمِينَ ٢ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ ٣ مَـٰلِكِ يَوْمِ ٱلدِّينِ ٤ إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ ٥ ٱهْدِنَا ٱلصِّرَٰطَ ٱلْمُسْتَقِيمَ ٦ صِرَٰطَ ٱلَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ ٱلْمَغْضُوبِ عَلَيْهِمْ وَلَا ٱلضَّآلِّينَ ٧",
-            "قُلْ أَعُوذُ بِرَبِّ ٱلنَّاسِ ١ مَلِكِ ٱلنَّاسِ ٢ إِلَـٰهِ ٱلنَّاسِ ٣ مِن شَرِّ ٱلْوَسْوَاسِ ٱلْخَنَّاسِ ٤ ٱلَّذِى يُوَسْوِسُ فِى صُدُورِ ٱلنَّاسِ ٥ مِنَ ٱلْجِنَّةِ وَٱلنَّاسِ ٦",
-            "قُلْ أَعُوذُ بِرَبِّ ٱلْفَلَقِ ١ مِن شَرِّ مَا خَلَقَ ٢ وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ ٣ وَمِن شَرِّ ٱلنَّفَّـٰثَـٰتِ فِى ٱلْعُقَدِ ٤ وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ ٥",
-            "قُلْ هُوَ ٱللَّهُ أَحَدٌ ١ ٱللَّهُ ٱلصَّمَدُ ٢ لَمْ يَلِدْ وَلَمْ يُولَدْ ٣ وَلَمْ يَكُن لَّهُۥ كُفُوًا أَحَدٌۢ ٤",
-            "تَبَّتْ يَدَآ أَبِى لَهَبٍۢ وَتَبَّ ١ مَآ أَغْنَىٰ عَنْهُ مَالُهُۥ وَمَا كَسَبَ ٢ سَيَصْلَىٰ نَارًۭا ذَاتَ لَهَبٍۢ ٣ وَٱمْرَأَتُهُۥ حَمَّالَةَ ٱلْحَطَبِ ٤ فِى جِيدِهَا حَبْلٌۭ مِّن مَّسَدٍۭ ٥",
-            "إِذَا جَآءَ نَصْرُ ٱللَّهِ وَٱلْفَتْحُ ١ وَرَأَيْتَ ٱلنَّاسَ يَدْخُلُونَ فِى دِينِ ٱللَّهِ أَفْوَاجًۭا ٢ فَسَبِّحْ بِحَمْدِ رَبِّكَ وَٱسْتَغْفِرْهُ ۚ إِنَّهُۥ كَانَ تَوَّابًۢا ٣",
-            "قُلْ يَـٰٓأَيُّهَا ٱلْكَـٰفِرُونَ ١ لَآ أَعْبُدُ مَا تَعْبُدُونَ ٢ وَلَآ أَنتُمْ عَـٰبِدُونَ مَآ أَعْبُدُ ٣ وَلَآ أَنَا۠ عَابِدٌۭ مَّا عَبَدتُّمْ ٤ وَلَآ أَنتُمْ عَـٰبِدُونَ مَآ أَعْبُدُ ٥ لَكُمْ دِينُكُمْ وَلِىَ دِينِ ٦",
-            "إِنَّآ أَعْطَيْنَـٰكَ ٱلْكَوْثَرَ ١ فَصَلِّ لِرَبِّكَ وَٱنْحَرْ ٢ إِنَّ شَانِئَكَ هُوَ ٱلْأَبْتَرُ ٣",
-            "أَرَءَيْتَ ٱلَّذِى يُكَذِّبُ بِٱلدِّينِ ١ فَذَٰلِكَ ٱلَّذِى يَدُعُّ ٱلْيَتِيمَ ٢ وَلَا يَحُضُّ عَلَىٰ طَعَامِ ٱلْمِسْكِينِ ٣ فَوَيْلٌۭ لِّلْمُصَلِّينَ ٤ ٱلَّذِينَ هُمْ عَن صَلَاتِهِمْ سَاهُونَ ٥ ٱلَّذِينَ هُمْ يُرَآءُونَ ٦ وَيَمْنَعُونَ ٱلْمَاعُونَ ٧",
-            "لِإِيلَـٰفِ قُرَيْشٍ ١ إِۦلَـٰفِهِمْ رِحْلَةَ ٱلشِّتَآءِ وَٱلصَّيْفِ ٢ فَلْيَعْبُدُوا۟ رَبَّ هَـٰذَا ٱلْبَيْتِ ٣ ٱلَّذِىٓ أَطْعَمَهُم مِّن جُوعٍۢ وَءَامَنَهُم مِّنْ خَوْفٍۭ ٤",
-            "أَلَمْ تَرَ كَيْفَ فَعَلَ رَبُّكَ بِأَصْحَـٰبِ ٱلْفِيلِ ١ أَلَمْ يَجْعَلْ كَيْدَهُمْ فِى تَضْلِيلٍۢ ٢ وَأَرْسَلَ عَلَيْهِمْ طَيْرًا أَبَابِيلَ ٣ تَرْمِيهِم بِحِجَارَةٍۢ مِّن سِجِّيلٍۢ ٤ فَجَعَلَهُمْ كَعَصْفٍۢ مَّأْكُولٍۭ ٥",
-            "وَيْلٌۭ لِّكُلِّ هُمَزَةٍۢ لُّمَزَةٍ ١ ٱلَّذِى جَمَعَ مَالًۭا وَعَدَّدَهُۥ ٢ يَحْسَبُ أَنَّ مَالَهُۥٓ أَخْلَدَهُۥ ٣ كَلَّا ۖ لَيُنۢبَذَنَّ فِى ٱلْحُطَمَةِ ٤ وَمَآ أَدْرَىٰكَ مَا ٱلْحُطَمَةُ ٥ نَارُ ٱللَّهِ ٱلْمُوقَدَةُ ٦ ٱلَّتِى تَطَّلِعُ عَلَى ٱلْأَفْـِٔدَةِ ٧ إِنَّهَا عَلَيْهِم مُّؤْصَدَةٌۭ ٨ فِى عَمَدٍۢ مُّمَدَّدَةٍۭ ٩",
-            "وَٱلْعَصْرِ ١ إِنَّ ٱلْإِنسَـٰنَ لَفِى خُسْرٍ ٢ إِلَّا ٱلَّذِينَ ءَامَنُوا۟ وَعَمِلُوا۟ ٱلصَّـٰلِحَـٰتِ وَتَوَاصَوْا۟ بِٱلْحَقِّ وَتَوَاصَوْا۟ بِٱلصَّبْرِ ٣",
-            "أَلْهَىٰكُمُ ٱلتَّكَاثُرُ ١ حَتَّىٰ زُرْتُمُ ٱلْمَقَابِرَ ٢ كَلَّا سَوْفَ تَعْلَمُونَ ٣ ثُمَّ كَلَّا سَوْفَ تَعْلَمُونَ ٤ كَلَّا لَوْ تَعْلَمُونَ عِلْمَ ٱلْيَقِينِ ٥ لَتَرَوُنَّ ٱلْجَحِيمَ ٦ ثُمَّ لَتَرَوُنَّهَا عَيْنَ ٱلْيَقِينِ ٧ ثُمَّ لَتُسْـَٔلُنَّ يَوْمَئِذٍ عَنِ ٱلنَّعِيمِ ٨"
-        ]
+        const TOTAL_SENTENCE = 6236;
+        const QURAN_ENDPOINT = "https://api.alquran.cloud/v1/ayah"
 
-        const words = []
-
-        sentences.forEach((sentence) => {
-            words.push(...sentence.split(" "))
-        })
+        var words = [];
+        var prevWords = [];
+        var currentWord = "";
 
         function setWord() {
-            var prevword = document.getElementById("word").innerHTML;
-            var word = ""
-            while (word.length <= 1) {
-                var num = Math.floor(Math.random() * words.length);
-                word = words[num]
-                if (word === prevword) word = ""
+            if (words.length === 0) {
+                return getSentence(setWord)
             }
-            document.getElementById("word").innerHTML = word;
-            document.getElementById("word").style.fontSize = window.innerHeight / 2;
+
+            var word = "";
+            while (word === "" && words.length > 0) {
+                word = words.pop()
+                if (currentWord === word) {
+                    prevWords.push(word);
+                    word = ""
+                }
+            }
+
+            if (words.length === 0) {
+                return getSentence(setWord)
+            }
+
+            currentWord = word;
+            prevWords.push(word);
+            $("#word").html(word);
+            $("#body").css("font-size", window.innerHeight / 3);
         }
 
-        function init() {
-            setWord();
-            document.getElementById("word").onclick = setWord;
+        function prevWord() {
+            if (prevWords.length === 0) {
+                return;
+            }
+
+            var word = "";
+            while (word === "" && prevWords.length > 0) {
+                word = prevWords.pop()
+                if (currentWord === word) {
+                    words.push(word);
+                    word = ""
+                }
+            }
+
+            if (word) {
+                currentWord = word;
+                words.push(word);
+                $("#word").html(word);
+                $("#body").css("font-size", window.innerHeight / 3);
+            }
         }
 
-        window.onload = init;
+        function getSentence(cb) {
+            var num = Math.floor(Math.random() * TOTAL_SENTENCE)
+            $.getJSON(QURAN_ENDPOINT + "/" + num + "/quran-uthmani", function (data) {
+                if (!data || !data.data || !data.data.text) {
+                    console.log(JSON.stringify(data));
+                    throw "invalid data"
+                }
+
+                w = data.data.text.split(" ");
+
+                w.forEach((word) => {
+                    word = word.replace(" ۖ", "");
+                    word = word.replace(" ۚ", "");
+                    word = word.replace(" ۗ", "");
+                    word = word.replace("۞", "");
+                    word = word.replace("۞", "");
+                    word = word.replace("", "");
+
+                    if (word === "ٱللَّهَ") word = "";
+                    if (word === "ٱللَّهِ") word = "";
+
+                    words.push(word);
+                })
+                shuffleArray(words);
+                return cb()
+            });
+        }
+
+        function shuffleArray(array) {
+            for (var i = array.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var temp = array[i];
+                array[i] = array[j];
+                array[j] = temp;
+            }
+        }
+
+        $(document).ready(function () {
+            getSentence(function () {
+                setWord();
+            });
+
+            $("#next").click(setWord)
+            $("#prev").click(prevWord)
+        })
+
     </script>
 
     <style>
@@ -55,13 +114,47 @@
         #word {
             width: 100%;
             position: fixed;
-            top: 20%;
+            top: 10%;
+        }
+
+        #buttons {
+            position: fixed;
+            bottom: 2%;
+            width: 100%;
+        }
+
+        button {
+            width: 40%;
+            height: 10%;
+            border: none;
+            color: white;
+            padding: 1%;
+            border-radius: 20px;
+            text-align: center;
+            display: inline-block;
+            cursor:pointer;
+            font-size: 10%;
+        }
+
+        #next {
+            background-color: #4CAF50; /* Green */
+        }
+
+        #prev {
+            background-color: #008CBA; /* Blue */
+        }
+
+        #border {
+            width: 5%;
         }
     </style>
 </head>
 
-<body>
+<body id="body">
     <div id="word"></div>
+    <div id="buttons">
+        <button id="prev">&lt;&lt;</button><span id="border">&nbsp;</span><button id="next">&gt;&gt;</button>
+    </div>
 </body>
 
 </html>
