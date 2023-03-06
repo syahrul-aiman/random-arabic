@@ -1,0 +1,178 @@
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"
+        integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        const TOTAL_SENTENCE = 6236;
+        const QURAN_ENDPOINT = "https://api.alquran.cloud/v1/ayah"
+
+        const words = [];
+        const prevWords = [];
+        var currentWord = "";
+
+        function nextWord() {
+            if (words.length === 0) {
+                return getSentence(nextWord)
+            }
+
+            var word = "";
+            while (word === "" && words.length > 0) {
+                word = words.pop()
+                if (currentWord === word) {
+                    prevWords.push(word);
+                    word = ""
+                }
+            }
+
+            if (words.length === 0) {
+                return getSentence(nextWord)
+            }
+
+            currentWord = word;
+            prevWords.push(word);
+            $("#word").html(word);
+
+            setSize();
+        }
+
+        function prevWord() {
+            if (prevWords.length === 0) {
+                return;
+            }
+
+            var word = "";
+            while (word === "" && prevWords.length > 0) {
+                word = prevWords.pop()
+                if (currentWord === word) {
+                    words.push(word);
+                    word = ""
+                }
+            }
+
+            if (word) {
+                currentWord = word;
+                words.push(word);
+                $("#word").html(word);
+
+                setSize();
+            }
+        }
+
+        function setSize() {
+            var dominator = 2;
+            $("#word").css("font-size", window.innerHeight / dominator);
+            while ($("#word")[0].scrollWidth > $("#word").width()) {
+                dominator++;
+                $("#word").css("font-size", window.innerHeight / dominator);
+            }
+        }
+
+        function getSentence(cb) {
+            var num = Math.floor(Math.random() * TOTAL_SENTENCE)
+            $.getJSON(QURAN_ENDPOINT + "/" + num + "/quran-uthmani", function (data) {
+                if (!data || !data.data || !data.data.text) {
+                    console.log(JSON.stringify(data));
+                    throw "invalid data"
+                }
+
+                w = data.data.text.split(" ");
+
+                w.forEach((word) => {
+                    word = word.replace(" ۖ", "");
+                    word = word.replace(" ۚ", "");
+                    word = word.replace(" ۗ", "");
+                    word = word.replace(" ۚ", "");
+                    word = word.replace("۞", "");
+                    word = word.replace("۞", "");
+                    word = word.replace("", "");
+
+                    if (word === "ٱللَّهَ") word = "";
+                    if (word === "ٱللَّهِ") word = "";
+
+                    if (word.length === 1) word = "";
+                    words.push(word);
+                })
+                shuffleArray(words);
+                return cb()
+            });
+        }
+
+        function shuffleArray(array) {
+            for (var i = array.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var temp = array[i];
+                array[i] = array[j];
+                array[j] = temp;
+            }
+        }
+
+        $(document).ready(function () {
+            getSentence(function () {
+                nextWord();
+            });
+
+            $("#next").click(nextWord)
+            $("#prev").click(prevWord)
+            $(window).resize(setSize);
+        })
+
+    </script>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        #word {
+            width: 100%;
+            position: fixed;
+            padding: 10% 0%;
+            overflow: scroll;
+        }
+
+        #buttons {
+            position: fixed;
+            bottom: 0px;
+            width: 100%;
+            height: 10%;
+        }
+
+        button {
+            width: 40%;
+            height: 70%;
+            border: none;
+            color: white;
+            border-radius: 20px;
+            text-align: center;
+            cursor: pointer;
+            font-size: 100%;
+        }
+
+        #next {
+            background-color: #4CAF50;
+            /* Green */
+        }
+
+        #prev {
+            background-color: #008CBA;
+            /* Blue */
+        }
+
+        #border {
+            width: 5%;
+        }
+    </style>
+</head>
+
+<body id="body">
+    <div id="word"></div>
+    <div id="buttons">
+        <button id="prev">&lt;&lt;</button><span id="border">&nbsp;</span><button id="next">&gt;&gt;</button>
+    </div>
+</body>
+
+</html>
