@@ -1,0 +1,89 @@
+<html>
+
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"
+        integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        const list = [
+            "ا",
+            "ب",
+            "ت",
+            "ث",
+            "ج",
+            "ح",
+            "خ",
+            "د",
+            "ذ",
+            "ر",
+            "ز",
+            "س",
+            "ش",
+            "ص",
+            "ض",
+            "ط",
+            "ظ",
+            "ع",
+            "غ",
+            "ف",
+            "ق",
+            "ك",
+            "ل",
+            "م",
+            "ن",
+            "ه",
+            "و",
+            "ي",
+            "ء"
+        ];
+
+        const list2 = [
+            " ُ",
+            " َ",
+            " ِ"
+        ]
+
+
+        function setLetter() {
+            var num = Math.floor(Math.random() * list.length);
+            $("#letter").html(list[num]);
+            $("#letter").css("font-size", window.innerHeight / 2);
+
+            num = Math.floor(Math.random() * list2.length);
+            $("#sign").html(list2[num]);
+            $("#sign").css("font-size", window.innerHeight / 2);
+        }
+
+        $(document).ready(function () {
+            setLetter();
+            $("#letter").click(setLetter);
+            $("#sign").click(setLetter);
+        });
+    </script>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        #sign {
+            width: 90%;
+            position: fixed;
+            top: 0px;
+        }
+
+        #letter {
+            width: 100%;
+            position: fixed;
+            top: 5%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="letter"></div>
+    <div id="sign"></div>
+</body>
+
+</html>
